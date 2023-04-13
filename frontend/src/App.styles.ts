@@ -3,13 +3,13 @@ import styled from 'styled-components';
 export const AppContainer = styled.div`
   background-color: #17181F;
   color: #797AB1;
+  min-width: 100%;
   min-height: 100vh;
 `;
 
 export const Header = styled.div`
   margin: 0;
   color: #fff;
-  width: 100%;
   border-bottom: 1px solid #444;
   padding: 20px;
   display: flex;
@@ -32,6 +32,9 @@ export const Header = styled.div`
       border-radius: 2px;
       padding: 5px;
     }
+    button:disabled {
+      opacity: 0.5;
+    }
     input {
       padding: 5px;
       border: 1px solid transparent;
@@ -41,4 +44,7 @@ export const Header = styled.div`
   }
 `;
 
-export const Products = styled.div``;
+export const Products = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+`;

@@ -1,10 +1,14 @@
 import { useEffect, useState } from 'react';
 import { AppContainer, Header, Products } from './App.styles'
+import { requestData } from './services/requests';
+import ProductCard from './components/ProductCard';
+import IProducts from './interfaces';
 
 function App() {
   const [market, setMarket] = useState('Web');
   const [category, setCategory] = useState('Categories');
   const [search, setSearch] = useState('');
+  const [productsArray, setProductsArray] = useState([]);
   const [isDisabled, setIsDisabled] = useState(true);
 
   useEffect(() => {
@@ -13,7 +17,10 @@ function App() {
     } else setIsDisabled(true);
   }, [market, category, search]);
 
-  const Search = () => {
+  const Search = async () => {
+    const result = await requestData('/products');
+    console.log('result', result);
+    setProductsArray(result);
     setMarket('Web');
     setCategory('Categories')
   }
@@ -58,7 +65,9 @@ function App() {
         </div>
       </Header>
       <Products>
-        <h2>TESTE2</h2>
+      { productsArray.length > 0 && productsArray.map((product: IProducts) => (
+            <ProductCard productData={ product } key={ product.id } />
+          ))}
       </Products>
     </AppContainer>
   );
