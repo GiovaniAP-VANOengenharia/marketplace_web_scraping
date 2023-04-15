@@ -1,7 +1,6 @@
 import requests
-import time
 from bs4 import BeautifulSoup
-# from tech_news.database import create_news
+from database import create_products_filter
 
 
 def fetch(url):
@@ -16,17 +15,15 @@ def fetch(url):
             return None
     except requests.ReadTimeout:
         return None
-    finally:
-        time.sleep(3)
 
 
-def scrape_updates(html_content):
+def scrape_url_products(html_content):
     if html_content is None:
         return []
     soup = BeautifulSoup(html_content, "html.parser")
     list = [
         url.a.get('href')
-        for url in soup.find_all('li', {"class": 'shops__layout-item'})
+        for url in soup.find_all('li', {"class": 'ui-search-layout__item'})
     ]
     return list
 
@@ -48,38 +45,37 @@ def scrape_products(html_content):
     image = soup.find('figure', {"class": 'ui-pdp-gallery__figure'})
     title = soup.find('h1', {"class": 'ui-pdp-title'}).string
     description = soup.find('p', {"class": 'ui-pdp-description__content'}).text
-    category = soup.find_all('a', {"class": 'andes-breadcrumb__link'})
-    price = soup.find(
-        'span', {"class": 'andes-money-amount__fraction'}).string
+    price = soup.find('span', {"class": 'ui-pdp-price__part'})
 
     dict = {
         "image": image.img.get('src'),
         "title": title,
         "description": description,
-        "category": category[-1].string,
-        "price": price,
-        "url": soup.find('link', {"rel": 'canonical'}).get('href'),
+        "price": price.meta.get('content'),
     }
     return dict
 
 
-def get_tech_news(amount):
-    page = fetch("https://blog.betrybe.com/")
-    links = scrape_updates(page)
+def get_products(amount, url, filters):
+    page = fetch(url)
 
-    while len(links) < amount:
+    links = scrape_url_products(page)
+    products = []
+
+    while len(products) < amount:
         next_page = scrape_next_page_link(page)
         page = fetch(next_page)
-        news_links = scrape_updates(page)
-        for news_link in news_links:
-            links.append(news_link)
+        product_data = scrape_products(page)
+        products.append(product_data)
 
-    news_list = []
+    products_list = []
 
     for index in range(amount):
         req = fetch(links[index])
-        news_list.append(scrape_news(req))
+        products_list.append(scrape_products(req))
 
-    create_news(news_list)
+    data = {**filters, "products": products_list}
 
-    return news_list
+    create_products_filter(data)
+
+    return products_list
