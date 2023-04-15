@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { AppContainer, Header, Products } from './App.styles'
 import { requestData } from './services/requests';
+import Dropdown from './components/Dropdown';
 import ProductCard from './components/ProductCard';
 import IProducts from './interfaces';
 
@@ -29,6 +30,8 @@ function App() {
     <AppContainer>
       <Header>
         <div>
+          <Dropdown options={['Web', 'Todas', 'MercadoLivre', 'Buscapé']} />
+          <Dropdown options={['Categorias', 'Geladeira', 'TV', 'Celular']} />
           <select
             id="web"
             value={ market }
