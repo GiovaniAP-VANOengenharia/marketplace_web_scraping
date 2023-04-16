@@ -1,16 +1,19 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { AppContainer, Header, Products } from './App.styles'
 import { requestData } from './services/requests';
 import Dropdown from './components/Dropdown';
 import ProductCard from './components/ProductCard';
 import IProducts from './interfaces';
+import MyContext from './Context/MyContext';
 
 function App() {
-  const [market, setMarket] = useState('Web');
-  const [category, setCategory] = useState('Categories');
-  const [search, setSearch] = useState('');
   const [productsArray, setProductsArray] = useState([]);
   const [isDisabled, setIsDisabled] = useState(true);
+  const [theme, setTheme] = useState('light');
+  const { market, setMarket, category, setCategory, search, setSearch } = useContext(MyContext);
+
+  const web = ['Web', 'Todas', 'MercadoLivre', 'Buscapé'];
+  const categories = ['Categorias', 'Geladeira', 'TV', 'Celular'];
 
   useEffect(() => {
     if (market !== 'Web' && category !== 'Categories' && search !== '') {
@@ -22,57 +25,38 @@ function App() {
     const result = await requestData('/products');
     console.log('result', result);
     setProductsArray(result);
+    setSearch('');
     setMarket('Web');
     setCategory('Categories')
   }
 
   return (
-    <AppContainer>
-      <Header>
-        <div>
-          <Dropdown options={['Web', 'Todas', 'MercadoLivre', 'Buscapé']} />
-          <Dropdown options={['Categorias', 'Geladeira', 'TV', 'Celular']} />
-          <select
-            id="web"
-            value={ market }
-            onChange={ ({ target }) => setMarket(target.value) }
+      <AppContainer>
+        <Header>
+          <div>
+            <Dropdown props={ web } />
+            <Dropdown props={ categories } />
+            <input
+                type="text"
+                id="search"
+                value={ search }
+                onChange={ ({ target }) => setSearch(target.value) }
+            />
+            <button
+            type="button"
+            onClick={ Search }
+            disabled={ isDisabled }
           >
-            <option value="Web">Web</option>
-            <option value="Todas">Todas</option>
-            <option value="MercadoLivre">MercadoLivre</option>
-            <option value="Buscapé">Buscapé</option>
-          </select>
-          <select
-            id="category"
-            value={ category }
-            onChange={ ({ target }) => setCategory(target.value) }
-          >
-            <option value="Geladeira">Categories</option>
-            <option value="Geladeira">Geladeira</option>
-            <option value="TV">TV</option>
-            <option value="Celular">Celular</option>
-          </select>
-          <input
-              type="text"
-              id="search"
-              value={ search }
-              onChange={ ({ target }) => setSearch(target.value) }
-          />
-          <button
-          type="button"
-          onClick={ Search }
-          disabled={ isDisabled }
-        >
-          Search
-        </button>
-        </div>
-      </Header>
-      <Products>
-      { productsArray.length > 0 && productsArray.map((product: IProducts) => (
-            <ProductCard productData={ product } key={ product.id } />
-          ))}
-      </Products>
-    </AppContainer>
+            Search
+          </button>
+          </div>
+        </Header>
+        <Products>
+        { productsArray.length > 0 && productsArray.map((product: IProducts) => (
+              <ProductCard productData={ product } key={ product.id } />
+            ))}
+        </Products>
+      </AppContainer>
   );
 }
 

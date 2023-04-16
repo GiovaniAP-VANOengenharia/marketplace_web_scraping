@@ -3,8 +3,9 @@ import styled from 'styled-components';
 export const AppContainer = styled.div`
   background-color: #17181F;
   color: #797AB1;
-  min-width: 100%;
-  min-height: 100vh;
+  width: 95%;
+  min-height: 93vh;
+  border: 1px solid #aaa;
 `;
 
 export const Header = styled.div`
@@ -22,15 +23,21 @@ export const Header = styled.div`
     margin: auto;
     width: 80%;
     gap: 20px;
-    select, button {
+    button {
+      min-width: 10em;
       background: #1636c7;
       color: #fff;
       display: flex;
+      font-size: 15px;
       justify-content: center;
       align-items: center;
       border: 1px #1636c7 solid;
       border-radius: 2px;
       padding: 5px;
+    }
+    .label {
+      opacity: 0;
+      display: none;
     }
     button:disabled {
       opacity: 0.5;
@@ -46,5 +53,6 @@ export const Header = styled.div`
 
 export const Products = styled.div`
   display: flex;
+  justify-content: space-around;
   flex-wrap: wrap;
 `;
