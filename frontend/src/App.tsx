@@ -9,25 +9,25 @@ import MyContext from './Context/MyContext';
 function App() {
   const [productsArray, setProductsArray] = useState([]);
   const [isDisabled, setIsDisabled] = useState(true);
-  const [theme, setTheme] = useState('light');
-  const { market, setMarket, category, setCategory, search, setSearch } = useContext(MyContext);
+  // const [theme, setTheme] = useState('light');
+  const { data, setData, setCat, search, setSearch } = useContext(MyContext);
 
   const web = ['Web', 'Todas', 'MercadoLivre', 'Buscapé'];
   const categories = ['Categorias', 'Geladeira', 'TV', 'Celular'];
 
   useEffect(() => {
-    if (market !== 'Web' && category !== 'Categories' && search !== '') {
+    if (data.web && data.category && search !== '') {
       setIsDisabled(false);
     } else setIsDisabled(true);
-  }, [market, category, search]);
+    console.log(data.web, data.category);
+  }, [data, search]);
 
   const Search = async () => {
     const result = await requestData('/products');
-    console.log('result', result);
     setProductsArray(result);
     setSearch('');
-    setMarket('Web');
-    setCategory('Categories')
+    setData({});
+    setCat([]);
   }
 
   return (
@@ -43,12 +43,12 @@ function App() {
                 onChange={ ({ target }) => setSearch(target.value) }
             />
             <button
-            type="button"
-            onClick={ Search }
-            disabled={ isDisabled }
-          >
-            Search
-          </button>
+              type="button"
+              onClick={ Search }
+              disabled={ isDisabled }
+            >
+              Search
+            </button>
           </div>
         </Header>
         <Products>

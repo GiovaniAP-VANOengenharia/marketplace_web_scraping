@@ -16,4 +16,19 @@ export const CardContainer = styled.div`
   .description {
     padding: 20px 20px 20px 10px ;
   }
+  .button{
+    display: flex;
+    align-items: center;
+  }
+  button {
+      background: #1636c7;
+      color: #fff;
+      display: flex;
+      font-size: 15px;
+      justify-content: center;
+      align-items: center;
+      border: 1px #1636c7 solid;
+      border-radius: 2px;
+      padding: 5px;
+    }
 `;
