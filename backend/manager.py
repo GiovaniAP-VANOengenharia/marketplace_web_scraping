@@ -4,10 +4,7 @@ from database import find_filters
 
 
 def manager(data):
-    amount = 10
-
-    print(data[0]["web"])
-    print(data[0]["url"])
+    amount = 20
 
     if (len(data) > 1):
         ml = []

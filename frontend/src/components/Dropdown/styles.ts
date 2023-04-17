@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const OptionContainer = styled.select`
-  min-width: 15em;
+  min-width: 10em;
   background: #1636c7;
   color: #fff;
   display: flex;

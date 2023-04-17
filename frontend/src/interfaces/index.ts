@@ -1,4 +1,5 @@
 export default interface IProducts {
+  key: number;
   image: string;
   title: string;
   description: string;

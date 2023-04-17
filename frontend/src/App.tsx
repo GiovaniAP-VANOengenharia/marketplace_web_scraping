@@ -36,7 +36,9 @@ function App() {
   const Search = async () => {
     const toSend = resolveData();
     const result = await requestData('/products', toSend);
-    setProductsArray(result);
+    const products = result
+      .filter((product: IProducts) => product.description.toLowerCase().includes(search.toLowerCase()));
+    setProductsArray(products);
     setSearch('');
     setData({});
   }
@@ -64,7 +66,7 @@ function App() {
         </Header>
         <Products>
         { productsArray.length > 0 && productsArray.map((product: IProducts, i: number) => (
-              <ProductCard productData={ product } key={ i } />
+              <ProductCard productData={ { ...product, key: i } } key={ i } />
             ))}
         </Products>
       </AppContainer>

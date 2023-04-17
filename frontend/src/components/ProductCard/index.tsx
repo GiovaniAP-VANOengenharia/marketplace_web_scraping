@@ -5,16 +5,19 @@ interface ProductsProps {
 }
 
 function ProductCard({ productData }: ProductsProps) {
-  const { image, title, description, category, price, url } = productData;
+  const { key, image, title, description, category, price, url } = productData;
 
   return (
     <CardContainer>
-      <img src={ image } alt={ description } />
+      <div className='img'>
+        <img src={ image } alt={ description } />
+      </div>
       <div className="description">
+        <p className="title">{ `Produto #${key + 1}` }</p>
         <p>{ title }</p>
-        <p>{ description }</p>
+        <p className="desc">{ description }</p>
         <p>{ category }</p>
-        <p>{ price }</p>
+        <p className="price">{ price }</p>
       </div>
       <div className="button">
       <a href={url}>
