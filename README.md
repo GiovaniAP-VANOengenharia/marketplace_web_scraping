@@ -12,12 +12,20 @@ O frontend é responsável por apresentar a interface gráfica da aplicação ao
 - HTML/CSS
 - Material-UI
 
-### Instalação e Execução
+## Para executar a aplicação localmente, siga estes passos:
 - Clone o repositório
 - Navegue até a pasta frontend do projeto
-- Execute o comando npm install para instalar as dependências do projeto
-- Execute o comando npm start para iniciar a aplicação
-- Acesse a aplicação em http://localhost:3000
+  ```
+- Instale as dependências:
+  ```bash
+  npm install
+  ```
+- Execute a aplicação:
+  ```bash
+  npm start
+  ```
+- A aplicação estará disponível em `http://localhost:3000`
+
 
 ## Backend
 
@@ -30,13 +38,25 @@ O backend é responsável por realizar a raspagem de dados nos diferentes market
 - Requests
 
 ### Instalação e Execução
-- Clone o repositório
 - Navegue até a pasta backend do projeto
-- Crie um ambiente virtual Python usando o comando python -m venv venv
-- Ative o ambiente virtual usando o comando venv\Scripts\activate (Windows) ou source venv/bin/activate (Linux/MacOS)
-- Execute o comando pip install -r requirements.txt para instalar as dependências do projeto
-- Execute o comando flask run para iniciar a aplicação
+- Crie um ambiente virtual Python usando o comando
+```bash
+ python -m venv venv
+ ```
+- Ative o ambiente virtual usando o comando  (Windows)
+```bash
+ venv\Scripts\activate
+  ```
+- (Linux/MacOS)
+```bash
+  source venv/bin/activate 
+```
+- Para instalar as dependências do projeto execute o comando 
+```bash
+  pip install -r requirements.txt
+```
+- Para iniciar a aplicação execute o comando
+```bash
+  flask run
+```
 - Acesse a API em http://localhost:5000
-
-### Endpoints da API
-- /<products>: Retorna informações dos produtos encontrados nos marketplaces para o produto pesquisado.
