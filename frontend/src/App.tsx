@@ -1,25 +1,75 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { useContext, useEffect, useState } from 'react';
+import { AppContainer, Header, Products } from './App.styles'
+import { requestData } from './services/requests';
+import Dropdown from './components/Dropdown';
+import ProductCard from './components/ProductCard';
+import IProducts from './interfaces';
+import MyContext from './Context/MyContext';
 
 function App() {
+  const [productsArray, setProductsArray] = useState([]);
+  const [isDisabled, setIsDisabled] = useState(true);
+  // const [theme, setTheme] = useState('light');
+  const { data, setData, search, setSearch } = useContext(MyContext);
+
+  const web = ['Web', 'Todas', 'MercadoLivre', 'Buscapé'];
+  const categories = ['Categorias', 'Geladeira', 'TV', 'Celular'];
+
+  useEffect(() => {
+    if (data.web && data.category && search !== '') {
+      setIsDisabled(false);
+    } else setIsDisabled(true);
+    console.log(data.web, data.category);
+  }, [data, search]);
+
+  const resolveData = () => {
+    const toSend = data.web.map((send: string, index: number) => (
+      {
+        web: send,
+        url: data.url[index],
+        category: data.category,
+      }
+    ));
+    return toSend;
+  };
+
+  const Search = async () => {
+    const toSend = resolveData();
+    const result = await requestData('/products', toSend);
+    const products = result
+      .filter((product: IProducts) => product.description.toLowerCase().includes(search.toLowerCase()));
+    setProductsArray(products);
+    setSearch('');
+    setData({});
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+      <AppContainer>
+        <Header>
+          <div>
+            <Dropdown props={ web } />
+            <Dropdown props={ categories } />
+            <input
+                type="text"
+                id="search"
+                value={ search }
+                onChange={ ({ target }) => setSearch(target.value) }
+            />
+            <button
+              type="button"
+              onClick={ Search }
+              disabled={ isDisabled }
+            >
+              Search
+            </button>
+          </div>
+        </Header>
+        <Products>
+        { productsArray.length > 0 && productsArray.map((product: IProducts, i: number) => (
+              <ProductCard productData={ { ...product, key: i } } key={ i } />
+            ))}
+        </Products>
+      </AppContainer>
   );
 }
 
