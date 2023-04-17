@@ -2,10 +2,9 @@ import styled from 'styled-components';
 
 export const CardContainer = styled.div`
   display: flex;
-  background: none;
   justify-content: space-around;
   align-items: space-around;
-  color: #797AB1;
+  color: #000;
   width: 45%;
   border: 1px solid #aaa;
   border-radius: 5px;

@@ -15,6 +15,7 @@ export const OptionContainer = styled.select`
     background: #fff;
     color: #000;
     border: 1px solid transparent;
-    border-radius: 2px;
+    border-radius: 50px;
+    box-shadow: 0 0 5em 1 rgba(0, 0, 0, 1);
   }
 `;

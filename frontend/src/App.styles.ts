@@ -1,17 +1,15 @@
 import styled from 'styled-components';
 
 export const AppContainer = styled.div`
-  background-color: #17181F;
+  background-color: #fff;
   color: #797AB1;
   width: 95%;
   min-height: 93vh;
-  border: 1px solid #aaa;
+  border: 1px solid #000;
 `;
 
 export const Header = styled.div`
   margin: 0;
-  color: #fff;
-  border-bottom: 1px solid #444;
   padding: 20px;
   display: flex;
   align-items: center;
@@ -24,7 +22,7 @@ export const Header = styled.div`
     width: 80%;
     gap: 20px;
     button {
-      min-width: 10em;
+      min-width: 5em;
       background: #1636c7;
       color: #fff;
       display: flex;
@@ -44,7 +42,7 @@ export const Header = styled.div`
     }
     input {
       padding: 5px;
-      border: 1px solid transparent;
+      border: 1px solid #000;
       border-radius: 2px;
       width: 40%;
     }

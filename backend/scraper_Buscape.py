@@ -31,16 +31,21 @@ def scrape_products(html_content):
     soup = BeautifulSoup(html_content, "html.parser")
     items = soup.find_all('div', {"class": 'SearchCard_ProductCard__1D3ve'})
 
-    image = [image.img for image in items]
     description = [desc.h2 for desc in items]
     price = [price.p for price in items]
     url = [f"https://www.buscape.com.br{url.a.get('href')}" for url in items]
+
+    img = []
+    for item in url:
+        data = fetch(item)
+        item_img = BeautifulSoup(data, "html.parser")
+        img.append(item_img.find('div', {"class": 'swiper-slide'}).img)
 
     products = []
 
     for i, _ in enumerate(items):
         dict = {
-            "image": image[i].get('src'),
+            "image": img[i].get('src'),
             "description": description[i].text,
             "price": price[i].text,
             "url": url[i],

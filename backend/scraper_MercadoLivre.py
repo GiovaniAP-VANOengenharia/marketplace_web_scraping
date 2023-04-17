@@ -31,19 +31,26 @@ def scrape_products(html_content):
     soup = BeautifulSoup(html_content, "html.parser")
     items = soup.find_all('li', {"class": 'ui-search-layout__item'})
 
-    image = [imagem.img for imagem in items]
+    # image = [imagem.img for imagem in items]
     description = [desc.h2 for desc in items]
     price = soup.find_all('span', {"class": 'price-tag-fraction'})
-    url = [url.a for url in items]
+    url = [url.a.get('href') for url in items]
+
+    img = []
+    for item in url:
+        data = fetch(item)
+        item_img = BeautifulSoup(data, "html.parser")
+        img.append(item_img.find(
+            'figure', {"class": 'ui-pdp-gallery__figure'}).img)
 
     products = []
 
     for i, _ in enumerate(items):
         dict = {
-            "image": image[0].get('src'),
+            "image": img[i].get('src'),
             "description": description[i].text,
             "price": price[i].text,
-            "url": url[i].get('href'),
+            "url": url[i],
         }
         products.append(dict)
 
