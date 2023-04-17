@@ -9,7 +9,6 @@ import MyContext from './Context/MyContext';
 function App() {
   const [productsArray, setProductsArray] = useState([]);
   const [isDisabled, setIsDisabled] = useState(true);
-  // const [theme, setTheme] = useState('light');
   const { data, setData, search, setSearch } = useContext(MyContext);
 
   const web = ['Web', 'Todas', 'MercadoLivre', 'Buscapé'];
@@ -19,7 +18,6 @@ function App() {
     if (data.web && data.category && search !== '') {
       setIsDisabled(false);
     } else setIsDisabled(true);
-    console.log(data.web, data.category);
   }, [data, search]);
 
   const resolveData = () => {

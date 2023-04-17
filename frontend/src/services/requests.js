@@ -1,13 +1,8 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'http://localhost:5000',
+  baseURL: 'https://web-scraping-backend-wine.vercel.app/',
 });
-
-// export const requestData = async (endpoint) => {
-//   const { data } = await api.get(endpoint);
-//   return data;
-// };
 
 export const requestData = async (endpoint, body) => {
   const { data } = await api.post(endpoint, body);
