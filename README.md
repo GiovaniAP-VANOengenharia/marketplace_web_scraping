@@ -15,7 +15,7 @@ O frontend é responsável por apresentar a interface gráfica da aplicação ao
 ### Instalação e Execução
 - Clone o repositório
 - Navegue até a pasta frontend do projeto
-- Execute o comando ~~~ npm install ~~~ para instalar as dependências do projeto
+- Execute o comando npm install para instalar as dependências do projeto
 - Execute o comando npm start para iniciar a aplicação
 - Acesse a aplicação em http://localhost:3000
 
