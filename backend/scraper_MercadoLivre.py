@@ -17,62 +17,50 @@ def fetch(url):
         return None
 
 
-def scrape_url_products(html_content):
-    if html_content is None:
-        return []
-    soup = BeautifulSoup(html_content, "html.parser")
-    list = [
-        url.a.get('href')
-        for url in soup.find_all('li', {"class": 'ui-search-layout__item'})
-    ]
-    return list
-
-
 def scrape_next_page_link(html_content):
     if html_content is None:
         return None
     soup = BeautifulSoup(html_content, "html.parser")
-    next_page_button = soup.find(
-        'li', {"class": 'andes-pagination__button--next'})
-    if next_page_button is None:
+    next = soup.find('li', {"class": 'andes-pagination__button--next'})
+    if next is None:
         return None
-    return next_page_button.a.get('href')
+    return next.a.get('href')
 
 
 def scrape_products(html_content):
     soup = BeautifulSoup(html_content, "html.parser")
+    items = soup.find_all('li', {"class": 'ui-search-layout__item'})
 
-    image = soup.find('figure', {"class": 'ui-pdp-gallery__figure'})
-    title = soup.find('h1', {"class": 'ui-pdp-title'}).string
-    description = soup.find('p', {"class": 'ui-pdp-description__content'}).text
-    price = soup.find('span', {"class": 'ui-pdp-price__part'})
+    image = [imagem.img for imagem in items]
+    description = [desc.h2 for desc in items]
+    price = soup.find_all('span', {"class": 'price-tag-fraction'})
+    url = [url.a for url in items]
 
-    dict = {
-        "image": image.img.get('src'),
-        "title": title,
-        "description": description,
-        "price": price.meta.get('content'),
-    }
-    return dict
+    products = []
+
+    for i, _ in enumerate(items):
+        dict = {
+            "image": image[0].get('src'),
+            "description": description[i].text,
+            "price": price[i].text,
+            "url": url[i].get('href'),
+        }
+        products.append(dict)
+
+    return products
 
 
 def get_products(amount, url, filters):
     page = fetch(url)
 
-    links = scrape_url_products(page)
-    products = []
+    products_list = scrape_products(page)
 
-    while len(products) < amount:
+    while len(products_list) < amount:
         next_page = scrape_next_page_link(page)
-        page = fetch(next_page)
-        product_data = scrape_products(page)
-        products.append(product_data)
-
-    products_list = []
-
-    for index in range(amount):
-        req = fetch(links[index])
-        products_list.append(scrape_products(req))
+        page_next = fetch(next_page)
+        new_list = scrape_products(page_next)
+        products_list = [*products_list, *new_list]
+        page = next_page
 
     data = {**filters, "products": products_list}
 

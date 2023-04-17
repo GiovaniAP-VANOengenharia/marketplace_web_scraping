@@ -10,7 +10,7 @@ function App() {
   const [productsArray, setProductsArray] = useState([]);
   const [isDisabled, setIsDisabled] = useState(true);
   // const [theme, setTheme] = useState('light');
-  const { data, setData, setCat, search, setSearch } = useContext(MyContext);
+  const { data, setData, search, setSearch } = useContext(MyContext);
 
   const web = ['Web', 'Todas', 'MercadoLivre', 'Buscapé'];
   const categories = ['Categorias', 'Geladeira', 'TV', 'Celular'];
@@ -22,12 +22,23 @@ function App() {
     console.log(data.web, data.category);
   }, [data, search]);
 
+  const resolveData = () => {
+    const toSend = data.web.map((send: string, index: number) => (
+      {
+        web: send,
+        url: data.url[index],
+        category: data.category,
+      }
+    ));
+    return toSend;
+  };
+
   const Search = async () => {
-    const result = await requestData('/products');
+    const toSend = resolveData();
+    const result = await requestData('/products', toSend);
     setProductsArray(result);
     setSearch('');
     setData({});
-    setCat([]);
   }
 
   return (
@@ -52,8 +63,8 @@ function App() {
           </div>
         </Header>
         <Products>
-        { productsArray.length > 0 && productsArray.map((product: IProducts) => (
-              <ProductCard productData={ product } key={ product.id } />
+        { productsArray.length > 0 && productsArray.map((product: IProducts, i: number) => (
+              <ProductCard productData={ product } key={ i } />
             ))}
         </Products>
       </AppContainer>
