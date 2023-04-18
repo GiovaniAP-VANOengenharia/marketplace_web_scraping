@@ -15,7 +15,6 @@ O frontend é responsável por apresentar a interface gráfica da aplicação ao
 ## Para executar a aplicação localmente, siga estes passos:
 - Clone o repositório
 - Navegue até a pasta frontend do projeto
-  ```
 - Instale as dependências:
   ```bash
   npm install
