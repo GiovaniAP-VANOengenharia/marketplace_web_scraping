@@ -10,7 +10,7 @@ O frontend é responsável por apresentar a interface gráfica da aplicação ao
 - React
 - TypeScript
 - HTML/CSS
-- Material-UI
+- Styled Components
 
 ## Para executar a aplicação localmente, siga estes passos:
 - Clone o repositório
@@ -32,12 +32,14 @@ O frontend é responsável por apresentar a interface gráfica da aplicação ao
 O backend é responsável por realizar a raspagem de dados nos diferentes marketplaces e retornar as informações ao frontend. Ele foi desenvolvido em Python usando o framework Flask, que é uma excelente opção para construção de APIs.
 
 ### Tecnologias utilizadas
+
 - Python
 - Flask
 - BeautifulSoup
 - Requests
 
 ### Instalação e Execução
+
 - Navegue até a pasta backend do projeto
 - Crie um ambiente virtual Python usando o comando
 ```bash
